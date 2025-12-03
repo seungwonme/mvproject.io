@@ -87,10 +87,10 @@
 - [x] Navbar 업데이트
 
 ### 테스트 및 배포
-- [ ] 주요 기능 수동 테스트
-- [ ] 샘플 데이터 50개 입력
-- [ ] 환경 변수 문서화
-- [ ] Vercel 배포 설정
+- [x] 주요 기능 수동 테스트 (docs/TESTING.md)
+- [x] 샘플 데이터 50개 입력 (supabase/seed.sql, scripts/seed.ts)
+- [x] 환경 변수 문서화 (docs/ENV.md)
+- [x] Vercel 배포 설정 (docs/DEPLOY.md)
 
 ---
 
