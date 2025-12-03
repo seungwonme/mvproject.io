@@ -11,7 +11,7 @@
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Play, Star, Heart, ExternalLink } from 'lucide-react';
+import { Play, Star, ExternalLink } from 'lucide-react';
 import type { ProductWithCategory } from '@/types';
 import { cn } from '@/lib/utils';
 

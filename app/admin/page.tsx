@@ -14,7 +14,6 @@ import {
   FolderTree,
   MessageSquare,
   Star,
-  TrendingUp,
   Plus,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -175,7 +174,7 @@ export default async function AdminPage() {
             <li>• <strong>상품 등록</strong>: 9:16 비율의 세로 이미지와 영상을 권장합니다.</li>
             <li>• <strong>외부 리뷰</strong>: 해외 쇼핑몰에서 복사한 리뷰를 입력해주세요.</li>
             <li>• <strong>AI 요약</strong>: 리뷰가 10개 이상 등록되면 AI 요약이 생성됩니다.</li>
-            <li>• <strong>추천 상품</strong>: 상품 등록 시 "추천" 옵션을 체크하면 홈에 노출됩니다.</li>
+            <li>• <strong>추천 상품</strong>: 상품 등록 시 &quot;추천&quot; 옵션을 체크하면 홈에 노출됩니다.</li>
           </ul>
         </div>
       </div>

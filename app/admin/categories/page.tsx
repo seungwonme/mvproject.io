@@ -6,6 +6,7 @@
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { createClerkSupabaseClient } from '@/lib/supabase/server';
 import { Plus, Edit, FolderTree } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -69,12 +70,13 @@ export default async function AdminCategoriesPage() {
                   className="flex items-center justify-between p-4 hover:bg-gray-50"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                    <div className="relative w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center overflow-hidden">
                       {category.image_url ? (
-                        <img
+                        <Image
                           src={category.image_url}
                           alt={category.name}
-                          className="w-8 h-8 object-contain"
+                          fill
+                          className="object-contain p-2"
                         />
                       ) : (
                         <FolderTree className="w-6 h-6 text-purple-600" />

@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { createClerkSupabaseClient } from '@/lib/supabase/server';
-import { Plus, Edit, Trash2, Star, Eye } from 'lucide-react';
+import { Plus, Edit, Star, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default async function AdminProductsPage() {

@@ -8,10 +8,9 @@
  * 긍정/부정 포인트와 추천 대상을 보여줍니다.
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Sparkles, ThumbsUp, ThumbsDown, Target, RefreshCw, Info } from 'lucide-react';
 import { Button } from './ui/button';
-import { cn } from '@/lib/utils';
 
 interface AISummaryBoxProps {
   productId: string;
@@ -33,7 +32,7 @@ export function AISummaryBox({ productId, productName }: AISummaryBoxProps) {
   const [error, setError] = useState<string | null>(null);
 
   // AI 요약 fetch
-  const fetchSummary = async () => {
+  const fetchSummary = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
@@ -55,12 +54,12 @@ export function AISummaryBox({ productId, productName }: AISummaryBoxProps) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [productId, productName]);
 
   // 컴포넌트 마운트 시 자동으로 fetch
   useEffect(() => {
     fetchSummary();
-  }, [productId]);
+  }, [fetchSummary]);
 
   // 로딩 상태
   if (isLoading) {

@@ -6,10 +6,9 @@
 import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import { getWishlist } from '@/actions/wishlists';
 import { getMyReviews } from '@/actions/reviews';
-import { Heart, MessageSquare, Clock, Star, Trash2 } from 'lucide-react';
+import { Heart, MessageSquare, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { WishlistItem } from '@/components/wishlist-item';
 
