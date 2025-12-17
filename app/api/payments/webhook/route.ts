@@ -7,7 +7,7 @@
  */
 
 import { NextResponse } from 'next/server';
-import { createServiceRoleClient } from '@/lib/supabase/service-role';
+import { getServiceRoleClient } from '@/lib/supabase/service-role';
 
 const TOSS_SECRET_KEY = process.env.TOSS_SECRET_KEY;
 
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     const { eventType, data } = body;
 
     // 서비스 역할 클라이언트 사용 (웹훅은 인증 없이 호출됨)
-    const supabase = createServiceRoleClient();
+    const supabase = getServiceRoleClient();
 
     switch (eventType) {
       case 'PAYMENT.DONE': {
