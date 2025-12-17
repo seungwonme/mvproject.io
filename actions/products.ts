@@ -249,6 +249,48 @@ export async function incrementViewCount(productId: string): Promise<void> {
 }
 
 /**
+ * 오늘의 신상품 조회 (최근 등록된 상품)
+ */
+export async function getNewProducts(limit = 4): Promise<ProductWithCategory[]> {
+  // 환경 변수 체크
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    console.error('Supabase 환경 변수가 설정되지 않았습니다.');
+    return [];
+  }
+
+  try {
+    const supabase = createClerkSupabaseClient();
+
+    const { data, error } = await supabase
+      .from('products')
+      .select(`
+        *,
+        category:categories(*)
+      `)
+      .eq('is_active', true)
+      .order('created_at', { ascending: false })
+      .limit(limit);
+
+    if (error) {
+      console.error('Error fetching new products:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+      });
+      return [];
+    }
+
+    return (data as ProductWithCategory[]) || [];
+  } catch (err) {
+    console.error('Unexpected error in getNewProducts:', {
+      error: err instanceof Error ? err.message : String(err),
+    });
+    return [];
+  }
+}
+
+/**
  * 관련 상품 조회
  */
 export async function getRelatedProducts(

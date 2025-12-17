@@ -148,6 +148,33 @@
 
 ---
 
+## Phase 7: 오늘의 신상품 섹션 ✅
+
+### 데이터베이스 확장
+- [x] products 테이블에 discount_rate 필드 추가
+- [x] products 테이블에 purchase_count 필드 추가
+- [x] 마이그레이션 파일 생성
+
+### 타입 및 API
+- [x] types/database.ts - Product 인터페이스 확장
+- [x] actions/products.ts - getNewProducts 함수 추가
+
+### 컴포넌트
+- [x] components/product-card.tsx - 할인율/구매자수 정보 추가
+- [x] components/home/todays-new-section.tsx - 신상품 섹션 컴포넌트
+
+### 레이아웃
+- [x] app/page.tsx - CategoryNavbar 아래에 신상품 섹션 배치
+
+### 디자인
+- [x] 9:16 릴스 스타일 상품 카드 유지
+- [x] 할인율 빨간색 배지
+- [x] 원가 취소선 표시
+- [x] 구매자 수 표시
+- [x] "+ 모두보기" 버튼 (초록색 테두리)
+
+---
+
 ## 다음 단계 (MVP 이후)
 
 - [ ] SNS 링크 실제 URL 연결

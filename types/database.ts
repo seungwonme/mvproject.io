@@ -94,6 +94,10 @@ export interface Product {
   is_active: boolean;
   view_count: number;
   
+  // 할인 및 구매 정보
+  discount_rate: number;
+  purchase_count: number;
+  
   // 타임스탬프
   created_at: Timestamp;
   updated_at: Timestamp;
@@ -118,6 +122,8 @@ export interface ProductInsert {
   tags?: string[];
   is_featured?: boolean;
   is_active?: boolean;
+  discount_rate?: number;
+  purchase_count?: number;
 }
 
 export interface ProductUpdate {
@@ -142,6 +148,8 @@ export interface ProductUpdate {
   is_featured?: boolean;
   is_active?: boolean;
   view_count?: number;
+  discount_rate?: number;
+  purchase_count?: number;
 }
 
 // 확장된 상품 타입 (조인 결과)

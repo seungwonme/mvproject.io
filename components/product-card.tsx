@@ -157,10 +157,26 @@ export function ProductCard({ product, className }: ProductCardProps) {
             {product.title}
           </h3>
 
-          {/* 가격 */}
-          <div className="flex items-center justify-between">
-            <span className="text-lg font-bold">{formatPrice(product.price_krw)}</span>
-            <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+          {/* 가격 - 할인 정보 포함 */}
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              {product.discount_rate > 0 && (
+                <span className="text-red-500 font-bold text-sm">{product.discount_rate}%</span>
+              )}
+              <span className="text-lg font-bold">{formatPrice(product.price_krw)}</span>
+              {product.original_price && product.discount_rate > 0 && (
+                <span className="text-sm text-gray-400 line-through">
+                  {formatPrice(product.original_price)}
+                </span>
+              )}
+            </div>
+            <div className="flex items-center justify-between">
+              {/* 구매자 수 */}
+              {product.purchase_count > 0 && (
+                <span className="text-xs text-gray-300">{product.purchase_count}명구매중</span>
+              )}
+              <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity ml-auto" />
+            </div>
           </div>
         </div>
       </div>

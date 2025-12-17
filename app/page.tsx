@@ -13,23 +13,26 @@
  */
 
 import Link from 'next/link';
-import { getFeaturedProducts } from '@/actions/products';
+import { getFeaturedProducts, getNewProducts } from '@/actions/products';
 import { getCategories } from '@/actions/categories';
 import { ProductCard } from '@/components/product-card';
 import { CategoryCard } from '@/components/category-card';
 import { HeroHeader } from '@/components/header/hero-header';
 import { CategoryNavbar } from '@/components/header/category-navbar';
+import { TodaysNewSection } from '@/components/home/todays-new-section';
 import { ArrowRight, Sparkles, Globe, MessageSquare } from 'lucide-react';
 
 export default async function HomePage() {
   // Server Component에서 데이터 fetch (병렬 실행)
   // 환경 변수가 없을 경우 빈 배열 반환
   let featuredProducts: Awaited<ReturnType<typeof getFeaturedProducts>> = [];
+  let newProducts: Awaited<ReturnType<typeof getNewProducts>> = [];
   let categories: Awaited<ReturnType<typeof getCategories>> = [];
 
   try {
-    [featuredProducts, categories] = await Promise.all([
+    [featuredProducts, newProducts, categories] = await Promise.all([
       getFeaturedProducts(8),
+      getNewProducts(4),
       getCategories(),
     ]);
   } catch (error) {
@@ -47,6 +50,9 @@ export default async function HomePage() {
 
       {/* Category Navbar - 카테고리 네비게이션 바 */}
       <CategoryNavbar />
+
+      {/* Today's New Section - 오늘의 신상품 */}
+      <TodaysNewSection products={newProducts} />
 
       {/* Features Section */}
       <section className="py-16 bg-gray-50">
