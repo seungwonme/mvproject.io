@@ -247,6 +247,23 @@
 
 ---
 
+## Phase 10: UI 단순화 및 정리 ✅
+
+### 홈페이지 정리
+- [x] Features Section 삭제 (AI 리뷰 요약, 다국어 번역, 한국어 리뷰) - 추후 재디자인 예정
+- [x] Categories Section 삭제 (상단 CategoryNavbar로 대체)
+- [x] 불필요한 import 정리 (getCategories, CategoryCard, Sparkles, Globe, MessageSquare)
+
+### 럭키드로우 페이지 정리
+- [x] "대항해" 텍스트 제거 (제목: "럭키드로우"로 단순화)
+- [x] 상단 선물 배지 아이콘 제거
+
+### Navbar 정리
+- [x] "상품" 메뉴 링크 제거 (CategoryNavbar로 대체)
+- [x] navLinks 배열 비움
+
+---
+
 ## 다음 단계 (향후 작업)
 
 - [ ] SNS 링크 실제 URL 연결
