@@ -2,6 +2,7 @@
 
 import { SignedOut, SignInButton, SignedIn, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X, Package, Heart, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,10 +10,16 @@ import { cn } from "@/lib/utils";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const navLinks = [
     { href: '/products', label: '상품', icon: Package },
   ];
+
+  // 홈페이지에서는 HeroHeader를 사용하므로 Navbar를 숨김
+  if (pathname === '/') {
+    return null;
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b">

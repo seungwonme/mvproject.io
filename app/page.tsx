@@ -3,6 +3,13 @@
  * @description 홈 페이지 - 추천 상품 및 카테고리 표시
  *
  * Server Component로 데이터를 fetch하여 초기 로딩 성능을 최적화합니다.
+ * 
+ * 주요 구성:
+ * - HeroHeader: 중세 세계지도 배경의 히어로 헤더 (로고 + 검색창 + 사용자 메뉴)
+ * - Features Section: AI 리뷰 요약, 다국어 번역, 한국어 리뷰 소개
+ * - Categories Section: 카테고리 목록
+ * - Featured Products Section: 추천 상품 목록
+ * - CTA Section: 행동 유도 섹션
  */
 
 import Link from 'next/link';
@@ -10,6 +17,7 @@ import { getFeaturedProducts } from '@/actions/products';
 import { getCategories } from '@/actions/categories';
 import { ProductCard } from '@/components/product-card';
 import { CategoryCard } from '@/components/category-card';
+import { HeroHeader } from '@/components/header/hero-header';
 import { ArrowRight, Sparkles, Globe, MessageSquare } from 'lucide-react';
 
 export default async function HomePage() {
@@ -30,33 +38,11 @@ export default async function HomePage() {
 
   return (
     <main className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700 text-white">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-20" />
-        <div className="relative max-w-7xl mx-auto px-4 py-24 sm:py-32">
-          <div className="text-center">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-              전세계 인기 상품의 리뷰를
-              <br />
-              <span className="text-yellow-300">AI가 한눈에</span> 요약해드립니다
-            </h1>
-            <p className="text-lg sm:text-xl text-purple-100 max-w-2xl mx-auto mb-8">
-              여러 해외 쇼핑몰에 흩어진 상품 정보와 리뷰를 한 곳에 모아,
-              <br className="hidden sm:block" />
-              AI 기술로 핵심만 빠르게 파악하세요.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/products"
-                className="inline-flex items-center justify-center gap-2 bg-white text-purple-700 px-8 py-4 rounded-full font-semibold hover:bg-purple-50 transition-colors"
-              >
-                상품 둘러보기
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Hero Header - 중세 세계지도 배경의 히어로 헤더 */}
+      <HeroHeader 
+        youtubeUrl="#"
+        instagramUrl="#"
+      />
 
       {/* Features Section */}
       <section className="py-16 bg-gray-50">
