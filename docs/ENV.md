@@ -35,6 +35,14 @@ SUPABASE_SERVICE_ROLE_KEY=eyJxxxxx
 NEXT_PUBLIC_STORAGE_BUCKET=uploads
 ```
 
+### 토스페이먼츠 결제
+
+```bash
+# 토스페이먼츠 개발자센터 > 내 개발 정보에서 확인 (https://developers.tosspayments.com)
+NEXT_PUBLIC_TOSS_CLIENT_KEY=test_ck_xxxxx
+TOSS_SECRET_KEY=test_sk_xxxxx
+```
+
 ---
 
 ## 환경 변수 상세 설명
@@ -57,6 +65,13 @@ NEXT_PUBLIC_STORAGE_BUCKET=uploads
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ | 공개 API 키 (RLS 정책 적용) |
 | `SUPABASE_SERVICE_ROLE_KEY` | ✅ | 서비스 역할 키 (RLS 우회, 서버 전용) |
 | `NEXT_PUBLIC_STORAGE_BUCKET` | ⚠️ | Storage 버킷 이름 (기본값: uploads) |
+
+### 토스페이먼츠 설정
+
+| 변수명 | 필수 | 설명 |
+|--------|------|------|
+| `NEXT_PUBLIC_TOSS_CLIENT_KEY` | ✅ | 토스페이먼츠 클라이언트 키 (결제 위젯용) |
+| `TOSS_SECRET_KEY` | ✅ | 토스페이먼츠 시크릿 키 (결제 승인용, 서버 전용) |
 
 ---
 

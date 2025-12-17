@@ -204,12 +204,52 @@
 
 ---
 
-## 다음 단계 (MVP 이후)
+## Phase 9: 이커머스 기능 ✅
+
+### 데이터베이스
+- [x] carts 테이블 마이그레이션
+- [x] orders 테이블 마이그레이션
+- [x] order_items 테이블 마이그레이션
+- [x] Cart, Order, OrderItem 타입 정의
+
+### 장바구니
+- [x] actions/cart.ts Server Actions
+- [x] /cart 장바구니 페이지
+- [x] CartItem, CartSummary 컴포넌트
+- [x] AddToCartButton 컴포넌트
+- [x] 상품 상세 페이지에 장바구니 담기 버튼 추가
+
+### 결제 (토스페이먼츠)
+- [x] @tosspayments/tosspayments-sdk 설치
+- [x] 환경 변수 설정 (NEXT_PUBLIC_TOSS_CLIENT_KEY, TOSS_SECRET_KEY)
+- [x] /checkout 결제 페이지
+- [x] CheckoutForm 컴포넌트 (배송정보 + 결제위젯)
+- [x] /api/payments/request 주문 생성 API
+- [x] /api/payments/confirm 결제 승인 API
+- [x] /api/payments/webhook 웹훅 API
+- [x] /checkout/success 결제 성공 페이지
+- [x] /checkout/fail 결제 실패 페이지
+
+### 주문조회
+- [x] actions/orders.ts Server Actions
+- [x] /my/orders 주문 목록 페이지
+- [x] /my/orders/[id] 주문 상세 페이지
+- [x] CancelOrderButton 컴포넌트
+
+### 상품 관리 (관리자)
+- [x] /admin/products/new 상품 등록 페이지
+- [x] /admin/products/[id]/edit 상품 수정 페이지
+- [x] ProductForm 컴포넌트
+
+### UI 업데이트
+- [x] TopBar 장바구니/주문조회 링크 연결
+- [x] 장바구니 아이템 개수 뱃지
+
+---
+
+## 다음 단계 (향후 작업)
 
 - [ ] SNS 링크 실제 URL 연결
-- [ ] 장바구니 기능 구현
-- [ ] 주문조회 기능 구현
-- [ ] 상품 등록/수정 폼 구현
 - [ ] 카테고리 추가/수정 폼 구현
 - [ ] 외부 리뷰 입력 폼 구현
 - [ ] 실제 AI API 연동 (OpenAI/Claude/Gemini)

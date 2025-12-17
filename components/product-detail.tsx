@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { toggleWishlist, isInWishlist } from '@/actions/wishlists';
+import { AddToCartButton } from './add-to-cart-button';
 import type { ProductWithCategory } from '@/types';
 import { cn } from '@/lib/utils';
 import { useEffect } from 'react';
@@ -287,20 +288,31 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
           {/* 액션 버튼 */}
           <div className="flex flex-col sm:flex-row gap-3 pt-4">
-            <Button
-              asChild
-              className="flex-1 bg-purple-600 hover:bg-purple-700"
-              size="lg"
-            >
-              <a
-                href={product.source_url}
-                target="_blank"
-                rel="noopener noreferrer"
+            {/* 직접 구매 가능하면 장바구니 버튼, 아니면 외부 링크 버튼 */}
+            <AddToCartButton
+              productId={product.id}
+              priceKrw={product.price_krw}
+              sourceUrl={product.source_url}
+              className="flex-1"
+            />
+
+            {/* 직접 구매 가능해도 외부 링크 제공 */}
+            {product.price_krw && (
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
               >
-                <ExternalLink className="w-5 h-5 mr-2" />
-                {getPlatformLabel(product.source_platform)}에서 구매하기
-              </a>
-            </Button>
+                <a
+                  href={product.source_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLink className="w-5 h-5 mr-2" />
+                  {getPlatformLabel(product.source_platform)}
+                </a>
+              </Button>
+            )}
 
             <Button
               variant="outline"

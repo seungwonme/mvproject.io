@@ -4,12 +4,13 @@
  * @file actions/products.ts
  * @description 상품 관련 Server Actions
  *
- * 상품 목록 조회, 상세 조회, 검색 등의 서버 액션을 제공합니다.
+ * 상품 목록 조회, 상세 조회, 검색, 등록, 수정, 삭제 등의 서버 액션을 제공합니다.
  * Server Component에서 직접 호출하거나, Client Component에서 사용할 수 있습니다.
  */
 
 import { createClerkSupabaseClient } from '@/lib/supabase/server';
-import type { Product, ProductWithCategory, ProductFilters, ProductSort } from '@/types';
+import { revalidatePath } from 'next/cache';
+import type { Product, ProductWithCategory, ProductFilters, ProductSort, ProductInsert, ProductUpdate } from '@/types';
 
 /**
  * 상품 목록 조회
@@ -329,5 +330,117 @@ export async function getRelatedProducts(
   }
 
   return data || [];
+}
+
+/**
+ * 상품 등록 (관리자)
+ */
+export async function createProduct(
+  data: ProductInsert
+): Promise<{ success: boolean; productId?: string; error?: string }> {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    return { success: false, error: 'Supabase 환경 변수가 설정되지 않았습니다.' };
+  }
+
+  const supabase = await createClerkSupabaseClient();
+
+  // slug 중복 체크
+  const { data: existing } = await supabase
+    .from('products')
+    .select('id')
+    .eq('slug', data.slug)
+    .single();
+
+  if (existing) {
+    return { success: false, error: '이미 사용 중인 URL 슬러그입니다.' };
+  }
+
+  const { data: product, error } = await supabase
+    .from('products')
+    .insert(data)
+    .select()
+    .single();
+
+  if (error) {
+    console.error('상품 등록 오류:', error);
+    return { success: false, error: '상품 등록에 실패했습니다.' };
+  }
+
+  revalidatePath('/admin/products');
+  revalidatePath('/products');
+  
+  return { success: true, productId: product.id };
+}
+
+/**
+ * 상품 수정 (관리자)
+ */
+export async function updateProduct(
+  id: string,
+  data: ProductUpdate
+): Promise<{ success: boolean; error?: string }> {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    return { success: false, error: 'Supabase 환경 변수가 설정되지 않았습니다.' };
+  }
+
+  const supabase = await createClerkSupabaseClient();
+
+  // slug 중복 체크 (자기 자신 제외)
+  if (data.slug) {
+    const { data: existing } = await supabase
+      .from('products')
+      .select('id')
+      .eq('slug', data.slug)
+      .neq('id', id)
+      .single();
+
+    if (existing) {
+      return { success: false, error: '이미 사용 중인 URL 슬러그입니다.' };
+    }
+  }
+
+  const { error } = await supabase
+    .from('products')
+    .update(data)
+    .eq('id', id);
+
+  if (error) {
+    console.error('상품 수정 오류:', error);
+    return { success: false, error: '상품 수정에 실패했습니다.' };
+  }
+
+  revalidatePath('/admin/products');
+  revalidatePath('/products');
+  revalidatePath(`/products/${data.slug || ''}`);
+  
+  return { success: true };
+}
+
+/**
+ * 상품 삭제 (관리자)
+ */
+export async function deleteProduct(
+  id: string
+): Promise<{ success: boolean; error?: string }> {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    return { success: false, error: 'Supabase 환경 변수가 설정되지 않았습니다.' };
+  }
+
+  const supabase = await createClerkSupabaseClient();
+
+  const { error } = await supabase
+    .from('products')
+    .delete()
+    .eq('id', id);
+
+  if (error) {
+    console.error('상품 삭제 오류:', error);
+    return { success: false, error: '상품 삭제에 실패했습니다.' };
+  }
+
+  revalidatePath('/admin/products');
+  revalidatePath('/products');
+  
+  return { success: true };
 }
 

@@ -11,7 +11,8 @@
 import Link from 'next/link';
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs';
 import { Youtube, Instagram, ShoppingCart, Package, User, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getCartCount } from '@/actions/cart';
 
 interface TopBarProps {
   youtubeUrl?: string;
@@ -23,10 +24,21 @@ export function TopBar({
   instagramUrl = '#' 
 }: TopBarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
 
-  const handleNotReady = (feature: string) => {
-    alert(`${feature} 기능은 준비 중입니다.`);
-  };
+  // 장바구니 개수 조회
+  useEffect(() => {
+    const fetchCartCount = async () => {
+      try {
+        const count = await getCartCount();
+        setCartCount(count);
+      } catch (error) {
+        console.error('장바구니 개수 조회 오류:', error);
+      }
+    };
+
+    fetchCartCount();
+  }, []);
 
   return (
     <div className="w-full">
@@ -80,21 +92,26 @@ export function TopBar({
             />
           </SignedIn>
           <span className="text-white/50">|</span>
-          <button 
-            onClick={() => handleNotReady('장바구니')}
-            className="px-2 py-1 hover:text-white transition-colors flex items-center gap-1"
+          <Link 
+            href="/cart"
+            className="px-2 py-1 hover:text-white transition-colors flex items-center gap-1 relative"
           >
             <ShoppingCart className="w-3.5 h-3.5" />
             장바구니
-          </button>
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+                {cartCount > 9 ? '9+' : cartCount}
+              </span>
+            )}
+          </Link>
           <span className="text-white/50">|</span>
-          <button 
-            onClick={() => handleNotReady('주문조회')}
+          <Link 
+            href="/my/orders"
             className="px-2 py-1 hover:text-white transition-colors flex items-center gap-1"
           >
             <Package className="w-3.5 h-3.5" />
             주문조회
-          </button>
+          </Link>
           <span className="text-white/50">|</span>
           <Link 
             href="/my"
@@ -169,20 +186,27 @@ export function TopBar({
                 <span>내 계정</span>
               </div>
             </SignedIn>
-            <button 
-              onClick={() => handleNotReady('장바구니')}
-              className="text-left py-2 hover:text-white transition-colors flex items-center gap-2"
+            <Link 
+              href="/cart"
+              className="py-2 hover:text-white transition-colors flex items-center gap-2"
+              onClick={() => setIsMobileMenuOpen(false)}
             >
               <ShoppingCart className="w-4 h-4" />
               장바구니
-            </button>
-            <button 
-              onClick={() => handleNotReady('주문조회')}
-              className="text-left py-2 hover:text-white transition-colors flex items-center gap-2"
+              {cartCount > 0 && (
+                <span className="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
+            <Link 
+              href="/my/orders"
+              className="py-2 hover:text-white transition-colors flex items-center gap-2"
+              onClick={() => setIsMobileMenuOpen(false)}
             >
               <Package className="w-4 h-4" />
               주문조회
-            </button>
+            </Link>
             <Link 
               href="/my"
               className="py-2 hover:text-white transition-colors flex items-center gap-2"

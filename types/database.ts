@@ -384,3 +384,110 @@ export interface LuckyDrawEventUpdate {
   is_active?: boolean;
 }
 
+// ============================================
+// Carts (장바구니)
+// ============================================
+
+export interface Cart {
+  id: UUID;
+  user_id: UUID;
+  product_id: UUID;
+  quantity: number;
+  created_at: Timestamp;
+  updated_at: Timestamp;
+}
+
+export interface CartInsert {
+  user_id: UUID;
+  product_id: UUID;
+  quantity?: number;
+}
+
+export interface CartUpdate {
+  quantity?: number;
+}
+
+// 확장된 장바구니 타입 (상품 정보 포함)
+export interface CartWithProduct extends Cart {
+  product: Product;
+}
+
+// ============================================
+// Orders (주문)
+// ============================================
+
+export type OrderStatus = 'pending' | 'paid' | 'shipping' | 'delivered' | 'cancelled';
+
+export interface Order {
+  id: UUID;
+  user_id: UUID;
+  order_number: string;
+  status: OrderStatus;
+  total_amount: number;
+  
+  // 배송 정보
+  shipping_name: string | null;
+  shipping_phone: string | null;
+  shipping_address: string | null;
+  shipping_memo: string | null;
+  
+  // 결제 정보
+  payment_key: string | null;
+  payment_method: string | null;
+  paid_at: Timestamp | null;
+  
+  // 타임스탬프
+  created_at: Timestamp;
+  updated_at: Timestamp;
+}
+
+export interface OrderInsert {
+  user_id: UUID;
+  order_number: string;
+  total_amount: number;
+  shipping_name?: string | null;
+  shipping_phone?: string | null;
+  shipping_address?: string | null;
+  shipping_memo?: string | null;
+}
+
+export interface OrderUpdate {
+  status?: OrderStatus;
+  shipping_name?: string | null;
+  shipping_phone?: string | null;
+  shipping_address?: string | null;
+  shipping_memo?: string | null;
+  payment_key?: string | null;
+  payment_method?: string | null;
+  paid_at?: Timestamp | null;
+}
+
+// ============================================
+// Order Items (주문 상품)
+// ============================================
+
+export interface OrderItem {
+  id: UUID;
+  order_id: UUID;
+  product_id: UUID;
+  product_title: string;
+  product_thumbnail: string | null;
+  price: number;
+  quantity: number;
+  created_at: Timestamp;
+}
+
+export interface OrderItemInsert {
+  order_id: UUID;
+  product_id: UUID;
+  product_title: string;
+  product_thumbnail?: string | null;
+  price: number;
+  quantity?: number;
+}
+
+// 확장된 주문 타입 (주문 상품 포함)
+export interface OrderWithItems extends Order {
+  items: OrderItem[];
+}
+

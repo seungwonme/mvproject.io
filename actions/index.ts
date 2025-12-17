@@ -11,6 +11,10 @@ export {
   getProductById,
   incrementViewCount,
   getRelatedProducts,
+  getNewProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct,
 } from './products';
 
 // 카테고리 관련
@@ -45,4 +49,25 @@ export {
   getActiveLuckyDrawEvent,
   getAllLuckyDrawEvents,
 } from './lucky-draw';
+
+// 장바구니 관련
+export {
+  getCartItems,
+  getCartCount,
+  addToCart,
+  updateCartQuantity,
+  removeFromCart,
+  clearCart,
+  isInCart,
+  getCartTotal,
+} from './cart';
+
+// 주문 관련
+export {
+  getMyOrders,
+  getOrderDetail,
+  getOrderByNumber,
+  cancelOrder,
+  getOrderCounts,
+} from './orders';
 
