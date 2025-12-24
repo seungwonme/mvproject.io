@@ -1,74 +1,52 @@
-# 커서 캐릭터 애니메이션 구현 요약
+# 프론트엔드 인터랙티브 요소 구현 요약
 
 ## 1. 개요
-사용자가 요청한 `jigooinshop.com` 사이트의 마우스 따라다니는 캐릭터 효과를 분석하고, 사용자의 이미지를 사용하여 유사한 기능을 구현하였습니다. 단순한 이미지 추적을 넘어, 코드를 통해 "걷는 듯한" 생동감을 부여했습니다.
+본 문서는 사용자 경험(UX) 향상을 위해 사이트에 추가된 두 가지 핵심 시각적 기능인 **커서 캐릭터 애니메이션**과 **동적 실사 배경**의 구현 내용을 정리합니다.
 
-## 2. 작업 상세 내용
+## 2. 주요 구현 기능
 
-### 2.1 사이트 분석 (Browser Agent)
-- **대상 사이트**: `https://jigooinshop.com/`
-- **관찰 결과**:
-  - 캐릭터가 마우스를 부드럽게 따라다님 (Lag/Delay 효과).
-  - 움직일 때 프레임 애니메이션(걷는 동작)이 존재.
-  - 회전이나 잔상 효과는 없음.
-- **결론**: Canvas보다는 DOM 엘리먼트(`div`, `img`)를 JS로 제어하는 방식이 적합하다고 판단.
+### 2.1 커서 캐릭터 애니메이션 (Walking Character Cursor)
+마우스 커서를 따라다니는 캐릭터에 생동감을 부여하기 위해 단순 이동뿐만 아니라 "걷는 듯한" 효과를 절차적 애니메이션으로 구현했습니다.
 
-### 2.2 리소스 배치
-- **이미지**: 사용자가 업로드한 이미지를 프로젝트의 정적 파일 경로로 이동.
-- **경로**: `public/cursor-character.png`
+- **컴포넌트**: `components/custom-cursor.tsx`
+- **주요 로직**:
+  - **Lerp (Linear Interpolation)**: 마우스 위치와 캐릭터 위치 간의 선형 보간을 통해 부드러운 추적 효과(Lag) 구현.
+  - **Procedural Animation**: 별도의 프레임 이미지 없이 코드로 동작 생성.
+    - **Bobbing**: 이동 속도에 따라 Y축으로 들썩이는 효과.
+    - **Tilting**: 이동 방향으로 캐릭터가 살짝 기울어지는 효과.
+  - **Direction Flip**: 이동 방향(좌/우)에 따라 캐릭터 좌우 반전.
+- **리소스**: `public/KakaoTalk_20251224_134851796-removebg-preview.png` (배 이미지)
 
-### 2.3 컴포넌트 구현 (`components/custom-cursor.tsx`)
-React의 `useRef`와 `requestAnimationFrame`을 사용하여 고성능 애니메이션을 구현했습니다.
+### 2.2 동적 실사 배경 (Immersive Sky Background)
+사이트 전체에 웅장하고 깊이감 있는 하늘 배경을 적용하여 "모험"의 테마를 시각화했습니다.
 
-- **기능적 특징**:
-  1.  **마우스 좌측 하단 배치**: 마우스 포인터 기준 좌측(-20px), 하단(+15px) 오프셋 적용.
-  2.  **Lerp (Linear Interpolation)**: 마우스 위치를 즉시 따라가지 않고 가중치(`0.15`)를 두어 부드럽게 뒤따라오는 효과 구현.
-  3.  **절차적 애니메이션 (Procedural Animation)**: 별도의 스프라이트 시트(걷는 동작 이미지들) 없이 코드만으로 걷는 느낌 구현.
-      - **Bobbing (위아래 들썩임)**: 이동 속도에 비례하여 `sin` 파동으로 Y축 움직임 생성.
-      - **Tilting (기울임)**: 이동 방향으로 약간 기울어지게 하여 역동성 추가.
-  4.  **방향 전환**: 마우스가 왼쪽/오른쪽으로 이동할 때 `scaleX`를 조정하여 캐릭터가 진행 방향을 바라보게 처리. 이전 방향 유지 로직 포함.
-  5.  **최적화**: `useState`를 최소화하고 `useRef`로 좌표를 관리하여 불필요한 리렌더링 방지.
-  6.  **초기 위치 동기화**: 첫 마우스 이동 시 즉시 해당 위치로 이동하여 날아오는 현상 방지.
+- **컴포넌트**: `components/DynamicBackground.tsx`
+- **주요 로직**:
+  - **Global Fixed Background**: `layout.tsx`에 `z-index: -50`으로 배치하여 모든 페이지 뒤에 고정.
+  - **Realistic Asset**: 사용자가 제공한 8K급 실사 하늘 이미지(`public/sky-bg.png`) 사용.
+  - **Artifact Correction**: 원본 이미지 상단의 불필요한 UI 흔적을 제거하기 위해 `background-position`을 조정(`-100px`)하여 크롭 처리.
+  - **Slow Zoom Animation**: 정지된 이미지가 지루하지 않도록 20초 주기의 아주 느린 확대/축소(`scale(1)` ↔ `scale(1.05)`) 애니메이션 적용 (`app/globals.css`).
+  - **Overlay**: 텍스트 가독성 확보를 위한 10% 검은색 오버레이 추가.
 
-### 2.4 전역 적용 (`app/layout.tsx`)
-- 모든 페이지에서 커서 효과가 나타나도록 최상위 레이아웃 파일에 컴포넌트 추가.
-- `SyncUserProvider` 외부에 배치하여 UI 구조와 독립적으로 작동.
-
-## 3. 결과물 구조
+## 3. 적용 위치
+모든 기능은 **`app/layout.tsx`** (Root Layout)에 통합되어 사이트 전역에서 동작합니다.
 
 ```tsx
-// components/custom-cursor.tsx (핵심 로직 예시)
-
-// 캐릭터 위치 오프셋 (마우스 포인터 기준 좌측 하단)
-const CURSOR_OFFSET_X = -20; // 좌측으로 이동
-const CURSOR_OFFSET_Y = 15;  // 하단으로 이동
-
-const animate = () => {
-  // 부드러운 추적
-  currentPos.x += (mousePos.x - currentPos.x) * LERP_FACTOR;
-  
-  // 속도 기반 걷는 모션 계산
-  if (isMoving) {
-     const bobOffset = Math.sin(walkCycle) * 4; // 위아래
-     const rotation = Math.sin(walkCycle) * 5;  // 회전
-  }
-  
-  // 좌측 하단 오프셋 적용
-  const finalX = currentPos.x + CURSOR_OFFSET_X;
-  const finalY = currentPos.y + CURSOR_OFFSET_Y + bobOffset;
-  
-  content.style.transform = `translate3d(${finalX}px, ${finalY}px, 0) ...`;
-}
+// app/layout.tsx 구조
+<body className={...}>
+  <DynamicBackground /> {/* 전역 배경 */}
+  <SyncUserProvider>
+    <Navbar />
+    {children}
+  </SyncUserProvider>
+  <CustomCursor />      {/* 전역 커서 */}
+</body>
 ```
 
-## 4. 설정 가능한 파라미터
-
-| 상수명 | 기본값 | 설명 |
-|--------|--------|------|
-| `CURSOR_OFFSET_X` | -20 | 마우스 기준 X축 오프셋 (음수: 좌측) |
-| `CURSOR_OFFSET_Y` | 15 | 마우스 기준 Y축 오프셋 (양수: 하단) |
-| `LERP_FACTOR` | 0.15 | 추적 부드러움 (낮을수록 느리게 따라옴) |
-
-## 5. 추후 개선 가능 사항
-- **이미지 교체**: `public/cursor-character.png` 파일만 바꾸면 캐릭터 변경 가능.
-- **파라미터 조정**: 상단 상수들을 조절하여 캐릭터의 위치, "무게감"이나 "발랄함" 수정 가능.
+## 4. 관련 파일 목록
+- `components/custom-cursor.tsx`: 커서 로직
+- `components/DynamicBackground.tsx`: 배경 로직
+- `app/layout.tsx`: 컴포넌트 통합
+- `app/globals.css`: 배경 애니메이션 (`@keyframes slow-zoom`)
+- `public/KakaoTalk_20251224_134851796-removebg-preview.png`: 커서 이미지 (배)
+- `public/sky-bg.png`: 배경 이미지

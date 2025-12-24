@@ -116,10 +116,80 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   main {
     @apply max-w-7xl mx-auto pt-16 px-4;
   }
+}
+
+/* Background Animations */
+@keyframes cloud-drift {
+  from {
+    transform: translateX(100vw);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes ship-sail {
+  0% {
+    transform: translateX(-100vw) translateY(10px) rotate(-1deg);
+  }
+
+  100% {
+    transform: translateX(100vw) translateY(-10px) rotate(1deg);
+  }
+}
+
+@keyframes ship-float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-cloud-slow {
+  animation: cloud-drift 80s linear infinite;
+}
+
+.animate-cloud-medium {
+  animation: cloud-drift 60s linear infinite;
+}
+
+.animate-ship-intro {
+  animation: ship-sail 40s linear infinite;
+  /* Repeating for ambient effect, or make it once */
+}
+
+.animate-ship-float {
+  animation: ship-float 3s ease-in-out infinite;
+}
+
+@keyframes slow-zoom {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-slow-zoom {
+  animation: slow-zoom 20s ease-in-out infinite;
 }

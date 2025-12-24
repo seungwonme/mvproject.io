@@ -20,14 +20,14 @@ interface HeroHeaderProps {
   instagramUrl?: string;
 }
 
-export function HeroHeader({ 
-  youtubeUrl = '#', 
-  instagramUrl = '#' 
+export function HeroHeader({
+  youtubeUrl = '#',
+  instagramUrl = '#'
 }: HeroHeaderProps) {
   return (
     <header className="relative w-full min-h-[320px] sm:min-h-[380px] md:min-h-[420px]">
       {/* Background Image with Overlay */}
-      <div 
+      <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: `url('/images/hero-bg.jpg')`,
