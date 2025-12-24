@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
       { hostname: "cdn3.wadiz.kr" },
       { hostname: "static.wadiz.kr" },
       { hostname: "www.wadiz.kr" },
+      // Amazon 크롤링 이미지
+      { hostname: "images-na.ssl-images-amazon.com" },
+      { hostname: "images-eu.ssl-images-amazon.com" },
+      { hostname: "m.media-amazon.com" },
+      { hostname: "images-amazon.com" },
     ],
   },
 };

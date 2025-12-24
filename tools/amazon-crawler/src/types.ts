@@ -1,0 +1,74 @@
+/**
+ * @file types.ts
+ * @description Amazon 크롤러 타입 정의
+ */
+
+// Amazon 상품 인터페이스
+export interface AmazonProduct {
+  // 기본 정보
+  asin: string;                    // Amazon Standard Identification Number
+  title: string;
+  slug: string;
+  description: string;
+  
+  // 미디어
+  thumbnailUrl: string;
+  imageUrls: string[];
+  videoUrl: string | null;
+  
+  // 가격 정보
+  price: number | null;            // 현재 가격 (USD)
+  originalPrice: number | null;    // 원래 가격 (USD)
+  priceKrw: number | null;         // 한화 환산 가격
+  currency: string;
+  
+  // 평점 및 리뷰
+  rating: number;                  // 별점 (1-5)
+  reviewCount: number;             // 리뷰 수
+  
+  // 카테고리 및 판매자
+  category: string;
+  brand: string | null;
+  seller: string | null;
+  
+  // 배송 정보
+  isPrime: boolean;
+  deliveryInfo: string | null;
+  
+  // 재고 상태
+  availability: string;
+  
+  // 메타 정보
+  sourceUrl: string;
+  crawledAt: Date;
+}
+
+// 크롤링 설정
+export interface CrawlConfig {
+  maxProducts: number;
+  headless: boolean;
+  searchQuery?: string;
+  categoryUrl?: string;
+  bestSellersUrl?: string;
+}
+
+// Supabase products 테이블 삽입 타입
+export interface ProductInsert {
+  title: string;
+  slug: string;
+  description?: string | null;
+  thumbnail_url?: string | null;
+  video_url?: string | null;
+  original_price?: number | null;
+  currency?: string;
+  price_krw?: number | null;
+  source_platform: string;
+  source_url: string;
+  external_rating?: number | null;
+  external_review_count?: number;
+  category_id?: string | null;
+  tags?: string[];
+  is_featured?: boolean;
+  is_active?: boolean;
+}
+
