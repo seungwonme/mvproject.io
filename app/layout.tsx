@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import Navbar from "@/components/Navbar";
 import { SyncUserProvider } from "@/components/providers/sync-user-provider";
+import CustomCursor from "@/components/custom-cursor";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -38,6 +39,7 @@ export default function RootLayout({
             <Navbar />
             {children}
           </SyncUserProvider>
+          <CustomCursor />
         </body>
       </html>
     </ClerkProvider>
