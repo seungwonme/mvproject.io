@@ -10,8 +10,13 @@ const nextConfig: NextConfig = {
       // Kickstarter 크롤링 이미지
       { hostname: "i.kickstarter.com" },
       { hostname: "ksr-ugc.imgix.net" },
-      // 와디즈 크롤링 이미지 (cdn, cdn1, cdn2, cdn3, static 등 모든 서브도메인)
-      { hostname: "*.wadiz.kr" },
+      // 와디즈 크롤링 이미지 - 각 서브도메인 명시
+      { hostname: "cdn.wadiz.kr" },
+      { hostname: "cdn1.wadiz.kr" },
+      { hostname: "cdn2.wadiz.kr" },
+      { hostname: "cdn3.wadiz.kr" },
+      { hostname: "static.wadiz.kr" },
+      { hostname: "www.wadiz.kr" },
     ],
   },
 };
